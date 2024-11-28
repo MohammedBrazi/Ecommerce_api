@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import javax.mail.PasswordAuthentication;
 import sbapi.brazi.services.UserService;
 import javax.mail.internet.MimeMessage;
+import javax.websocket.server.PathParam;
 import javax.mail.MessagingException;
 import sbapi.brazi.TokenGenerator;
 import javax.mail.Authenticator;
@@ -54,6 +55,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/signup",method = RequestMethod.POST,produces = "application/json")
 	public Response Signup (
+			@PathParam(value = "id") Long id,
 			@RequestParam("username") String username,
 			@RequestParam("firstname")String firstname,
 			@RequestParam("lastname")String lastname,
@@ -74,6 +76,20 @@ public class UserController {
 				response.setMessage("Credential Empty or Invalid");
 				return response;
 			}
+	
+	 Boolean exist = userService.existsById(id);
+	
+	if (exist == false) {
+		response.setCode("signup");
+		response.setStatus(false);
+		response.setMessage("Credential Already Found in Database");
+		return response;
+		
+	}
+		
+	
+	
+	
 		else 
 			{
 				User userRegister = userService.registerUser(username, firstname, lastname, email, phone, adresse, type, password);

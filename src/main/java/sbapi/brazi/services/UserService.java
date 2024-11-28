@@ -14,10 +14,13 @@ public class UserService {
 	
 	
 	@Autowired
-	private UserRepository ur;
+	private  UserRepository ur;
 	
 	@Autowired
 	private UserTokenRepository utr;
+	
+	
+	
 	
 	
 	
@@ -26,6 +29,13 @@ public class UserService {
 			return ur.findByUsernameAndPassword(username, password);
 		
 		 }
+	
+	public 	Boolean  existsById(Long id) {
+		
+		 return ur.existsById(id);
+		
+	
+	 }
 	
 	
 	public User registerUser(String username,String firstname,String lastname,String email,String phone,
